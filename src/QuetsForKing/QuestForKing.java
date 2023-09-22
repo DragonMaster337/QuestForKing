@@ -93,7 +93,7 @@ public class QuestForKing {
 
                 AdventureStep step = myStoryMap.get(mainKey);
 
-                //Main Story Menu
+                //Main Story Menu code
                 if (!(mainKey=="dead") && !(mainKey=="fall")) {
                     Object[] choices = step.options.keySet().toArray();
                     Object selectedChoice = JOptionPane.showInputDialog(null, step.text,
