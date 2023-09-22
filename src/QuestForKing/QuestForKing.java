@@ -1,4 +1,4 @@
-package QuetsForKing;
+package QuestForKing;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -92,6 +92,7 @@ public class QuestForKing {
             do {
 
                 AdventureStep step = myStoryMap.get(mainKey);
+                System.out.println(mainKey);
 
                 //Main Story Menu code
                 if (!(mainKey=="dead") && !(mainKey=="fall")) {

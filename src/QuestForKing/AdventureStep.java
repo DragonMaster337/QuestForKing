@@ -1,4 +1,4 @@
-package QuetsForKing;
+package QuestForKing;
 
 import java.util.Map;
 
