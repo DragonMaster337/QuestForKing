@@ -93,6 +93,7 @@ public class QuestForKing {
 
                 AdventureStep step = myStoryMap.get(mainKey);
                 System.out.println(mainKey);
+                System.out.println(mainKey);
 
                 //Main Story Menu
                 if (!(mainKey=="dead") && !(mainKey=="fall")) {
