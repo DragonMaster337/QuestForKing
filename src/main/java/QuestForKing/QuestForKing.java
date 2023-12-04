@@ -1,7 +1,15 @@
 package QuestForKing;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import javax.swing.*;
+import java.io.InputStream;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuestForKing {
@@ -22,7 +30,7 @@ public class QuestForKing {
     public ImageIcon skull = new ImageIcon("Skull.png");
 
     //Starts The Game
-    public QuestForKing(){
+    public QuestForKing() throws Exception{
         while (playing) {
             name = JOptionPane.showInputDialog(null, "What should we call you adventurer? (please enter a name)");
             game(name);
@@ -44,49 +52,30 @@ public class QuestForKing {
         }
     }
 
-    public void game(String name)  {
+    private Map<String, AdventureStep> loadAdventure() throws Exception {
+        try {
+            // create object mapper instance
+            ObjectMapper mapper = new ObjectMapper();
+            // convert a JSON string to a Book object
+            InputStream fileInputStream = this.getClass().getResourceAsStream("/Adventure.json");
+            Map<String, AdventureStep> data = mapper.readValue(fileInputStream, new TypeReference<Map<String, AdventureStep>>() {});
+            // print book
+            //System.out.println(book);
+            return data;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
+
+    }
+    public void game(String name) throws Exception {
         mainKey = "Start";
 
         Map<String, AdventureStep> myStoryMap = new HashMap();
 
         //Start Of Adventure
-        Map options = new HashMap();
-        options.put("A. Go left", "left");
-        options.put("B. Go right ", "right");
-        AdventureStep firstStep = new AdventureStep("You have been invited to a challenge the winner will become king of the kingdom \n" +name +
-                " as you are walking on a path to the castle it splits into two. Which way do you go?" +
-                "\nA. Go left \nB. Go Right", options);
-        myStoryMap.put("Start", firstStep);
-
-        //Story For going left at the crossroads
-        options = new HashMap();
-        options.put("A. Go in", "house");
-        options.put("B. Continue on your way", "castle");
-        AdventureStep leftStep = new AdventureStep("You went left and see a house what do you do? " +
-                "\nA. Go in\n B. continue on your way", options);
-        myStoryMap.put("left", leftStep);
-
-        //Story for going right at the crossroads
-        options = new HashMap();
-        options.put("A. Jump off", "fall");
-        options.put("B. Go Back", "left");
-        AdventureStep cliffStep = new AdventureStep("You are walking when the path disappears and a cliff is in front of you. What do you do?" +
-                "\nA. Jump off \n B. Go Back ", options);
-        myStoryMap.put("right", cliffStep);
-
-        //Story for entering the house
-        options = new HashMap();
-        options.put("A. Leave", "castle");
-        AdventureStep houseStep = new AdventureStep("You went into the house and see nothing of interest. \n(You should probably leave before the owners come back)" +
-                "\nA. Leave", options);
-        myStoryMap.put("house", houseStep);
-
-        //Story for Ariving at the castle safely
-        options = new HashMap();
-        options.put("A. Rule The kingdom", "dead");
-        AdventureStep castleStep = new AdventureStep("You arrive at the castle and you are the only one there for the challenge. You are immediately pointed as the king." +
-                "\nYou become known as " + name +" The Great and died many years later.", options);
-        myStoryMap.put("castle", castleStep);
+       myStoryMap = loadAdventure();
 
 
             do {
@@ -95,19 +84,19 @@ public class QuestForKing {
                 System.out.println(mainKey);
 
                 //Main Story Menu code
-                if (!(mainKey=="dead") && !(mainKey=="fall")) {
-                    Object[] choices = step.options.keySet().toArray();
-                    Object selectedChoice = JOptionPane.showInputDialog(null, step.text,
+                if ( !mainKey.equals("dead") && !mainKey.equals("fall")) {
+                    Object[] choices = step.options().keySet().toArray();
+                    Object selectedChoice = JOptionPane.showInputDialog(null, step.text(),
                             "12", JOptionPane.INFORMATION_MESSAGE, castle, choices, choices[0]).toString();
-                    mainKey = step.options.get(selectedChoice);
+                    mainKey = step.options().get(selectedChoice);
 
                 //Dead Menu
-                } else if (mainKey=="dead") {
+                } else if (mainKey.equals("dead")) {
                     JOptionPane.showMessageDialog(null, "You have died", "You Died",JOptionPane.INFORMATION_MESSAGE, skull);
                     alive = false;
 
                 //Falling menu
-                } else if (mainKey=="fall") {
+                } else if (mainKey.equals("fall")) {
                     for (int i=0; i<10; i++) {
                         switch (fallingOptions) {
                             case 0:
@@ -161,6 +150,10 @@ public class QuestForKing {
     } //typed with no two parameters
 
     public static void main(String[] args) {
-        new QuestForKing();
+        try {
+            new QuestForKing();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -1,0 +1,40 @@
+{
+  "castle" : {
+    "comment": "Story for Ariving at the castle safely",
+    "text" : "You arrive at the castle and you are the only one there for the challenge. You are immediately pointed as the king.\nYou become known as lol The Great and died many years later.",
+    "options" : {
+      "A. Rule The kingdom" : "dead"
+    }
+  },
+  "Start" : {
+    "comment": "Start Of Adventure",
+    "text" : "You have been invited to a challenge the winner will become king of the kingdom \nlol as you are walking on a path to the castle it splits into two. Which way do you go?\nA. Go left \nB. Go Right",
+    "options" : {
+      "B. Go right " : "right",
+      "A. Go left" : "left"
+    }
+  },
+  "left" : {
+    "comment": "Story For going left at the crossroads",
+    "text" : "You went left and see a house what do you do? \nA. Go in\n B. continue on your way",
+    "options" : {
+      "B. Continue on your way" : "castle",
+      "A. Go in" : "house"
+    }
+  },
+  "right" : {
+    "comment": "Story for going right at the crossroads",
+    "text" : "You are walking when the path disappears and a cliff is in front of you. What do you do?\nA. Jump off \n B. Go Back ",
+    "options" : {
+      "A. Jump off" : "fall",
+      "B. Go Back" : "left"
+    }
+  },
+  "house" : {
+    "comment": "Story for entering the house",
+    "text" : "You went into the house and see nothing of interest. \n(You should probably leave before the owners come back)\nA. Leave",
+    "options" : {
+      "A. Leave" : "castle"
+    }
+  }
+}
